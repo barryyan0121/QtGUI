@@ -12,17 +12,20 @@ MainWindow::MainWindow(QWidget *parent)
     label->setText("Please Load Image");
     label->setAlignment(Qt::AlignCenter);
     label->setStyleSheet("QLabel{background-color:rgb(200,200,200);}");
+    label->setScaledContents(true);
     ui->verticalLayout->addWidget(label);
     QObject::connect(label, &myLabel::sendRectSig, this, &MainWindow::recvRectSig);
+    QObject::connect(this, &MainWindow::sendSaveImageSig, label, &myLabel::recvSaveImageSig);
     QObject::connect(this, &MainWindow::sendIsAddROISig, label, &myLabel::recvIsAddROISig);
-    QObject::connect(ui->roi1, SIGNAL(clicked()), this, SLOT(on_AddROI_clicked()));
-    QObject::connect(ui->roi2, SIGNAL(clicked()), this, SLOT(on_AddROI_clicked()));
-    QObject::connect(ui->roi3, SIGNAL(clicked()), this, SLOT(on_AddROI_clicked()));
-    QObject::connect(ui->roi4, SIGNAL(clicked()), this, SLOT(on_AddROI_clicked()));
-    QObject::connect(ui->roi5, SIGNAL(clicked()), this, SLOT(on_AddROI_clicked()));
-    QObject::connect(ui->roi6, SIGNAL(clicked()), this, SLOT(on_AddROI_clicked()));
-    QObject::connect(ui->roi7, SIGNAL(clicked()), this, SLOT(on_AddROI_clicked()));
-    QObject::connect(ui->roi8, SIGNAL(clicked()), this, SLOT(on_AddROI_clicked()));
+    QObject::connect(this, &MainWindow::sendRectMapSig, label, &myLabel::recvRectMapSig);
+    QObject::connect(ui->roi1, &QPushButton::clicked, this, &MainWindow::AddROI1_clicked);
+    QObject::connect(ui->roi2, &QPushButton::clicked, this, &MainWindow::AddROI2_clicked);
+    QObject::connect(ui->roi3, &QPushButton::clicked, this, &MainWindow::AddROI3_clicked);
+    QObject::connect(ui->roi4, &QPushButton::clicked, this, &MainWindow::AddROI4_clicked);
+    QObject::connect(ui->roi5, &QPushButton::clicked, this, &MainWindow::AddROI5_clicked);
+    QObject::connect(ui->roi6, &QPushButton::clicked, this, &MainWindow::AddROI6_clicked);
+    QObject::connect(ui->roi7, &QPushButton::clicked, this, &MainWindow::AddROI7_clicked);
+    QObject::connect(ui->roi8, &QPushButton::clicked, this, &MainWindow::AddROI8_clicked);
 
 }
 
@@ -30,7 +33,6 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
-
 
 void MainWindow::on_LoadImage_clicked()
 {
@@ -61,26 +63,18 @@ void MainWindow::on_LoadImage_clicked()
 
 void MainWindow::on_SaveImage_clicked()
 {
-
+    emit sendSaveImageSig();
 }
 
 void MainWindow::recvRectSig(QRect rect)
 {
-    if (rect_list.size() < 8)
-    {
-        rect_list.push_back(rect);
-    }
-    else
-    {
-        rect_list[7] = rect;
-    }
-    qDebug() << rect_list << endl;
-
+    rect_map[current_roi] = rect;
+    emit sendRectMapSig(rect_map);
 }
 
-void MainWindow::on_AddROI_clicked()
+void MainWindow::ROIClickedHelper(QString string)
 {
-    if (is_add_roi)
+    if (is_add_roi && current_roi == string)
     {
         is_add_roi = false;
         this->setCursor(QCursor(Qt::ArrowCursor));
@@ -90,6 +84,63 @@ void MainWindow::on_AddROI_clicked()
         is_add_roi = true;
         this->setCursor(QCursor(Qt::CrossCursor));
     }
+    current_roi = string;
     emit sendIsAddROISig(is_add_roi);
-
 }
+
+void MainWindow::AddROI1_clicked()
+{
+    ROIClickedHelper("ROI1");
+}
+
+void MainWindow::AddROI2_clicked()
+{
+    ROIClickedHelper("ROI2");
+}
+
+void MainWindow::AddROI3_clicked()
+{
+    ROIClickedHelper("ROI3");
+}
+
+void MainWindow::AddROI4_clicked()
+{
+    ROIClickedHelper("ROI4");
+}
+
+
+void MainWindow::AddROI5_clicked()
+{
+    ROIClickedHelper("ROI5");
+}
+
+
+void MainWindow::AddROI6_clicked()
+{
+    ROIClickedHelper("ROI6");
+}
+
+void MainWindow::AddROI7_clicked()
+{
+    ROIClickedHelper("ROI7");
+}
+
+void MainWindow::AddROI8_clicked()
+{
+    ROIClickedHelper("ROI8");
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -9,6 +9,13 @@
 
 #include "QtHeaders.h"
 
+class myLayout:public QWidget
+{
+public:
+    myLayout(QWidget *parent);
+    ~myLayout();
+    void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
+};
 
 class myLabel:public QLabel
 {
@@ -25,6 +32,8 @@ public:
 
 public slots:
     void recvIsAddROISig(bool is_add_roi);
+    void recvSaveImageSig();
+    void recvRectMapSig(QMap<QString, QRect> rect_map);
 
 private:
     bool m_isDown;
@@ -32,7 +41,8 @@ private:
     QPoint m_start;
     QPoint m_stop;
     QRect getRect(const QPoint &beginPoint, const QPoint &endPoint);
-    QList<QRect> rect_list;
+    QRect current_rect;
+    QMap<QString, QRect> rect_map;
 
 Q_SIGNALS:
     void sendRectSig(QRect rect);

@@ -22,15 +22,28 @@ private slots:
     void on_SaveImage_clicked();
     void recvRectSig(QRect rect);
 
-    void on_AddROI_clicked();
+    void AddROI1_clicked();
+    void AddROI2_clicked();
+    void AddROI3_clicked();
+    void AddROI4_clicked();
+    void AddROI5_clicked();
+    void AddROI6_clicked();
+    void AddROI7_clicked();
+    void AddROI8_clicked();
 
 private:
     Ui::MainWindow *ui;
     myLabel *label;
     bool is_add_roi;
-    QList<QRect> rect_list;
+    QMap<QString, QRect> rect_map;
+    QString current_roi;
+
+    void ROIClickedHelper(QString string);
+
 
 Q_SIGNALS:
     void sendIsAddROISig(bool is_add_roi);
+    void sendRectMapSig(QMap<QString, QRect> rect_map);
+    void sendSaveImageSig();
 };
 #endif // MAINWINDOW_H

@@ -1,5 +1,21 @@
 #include "mylabel.h"
 
+myLayout::myLayout(QWidget *parent)
+{
+
+}
+
+myLayout::~myLayout()
+{
+
+}
+
+void myLayout::paintEvent(QPaintEvent *event)
+{
+
+}
+
+
 myLabel::myLabel(QWidget *parent):QLabel(parent),
     m_start(QPoint(-1, -1)), m_stop(QPoint(-1, -1))
 {
@@ -30,10 +46,10 @@ void myLabel::mouseMoveEvent(QMouseEvent *e)
 
 void myLabel::mouseReleaseEvent(QMouseEvent *e)
 {
-    if(e->button() && Qt::LeftButton && is_add_roi){
+    if(e->button() && Qt::LeftButton && is_add_roi)
+    {
         m_isDown = false;
-        QRect selectedRect = getRect(m_start, m_stop);
-        emit sendRectSig(selectedRect);
+        current_rect = getRect(m_start, m_stop);
     }
 }
 
@@ -42,17 +58,27 @@ void myLabel::paintEvent(QPaintEvent * event)
     QLabel::paintEvent(event);
     QPainter painter(this);
     painter.setPen(QPen(Qt::red, 2));
-    if(!m_isDown){
-        return;
-    }
+//    if(!m_isDown)
+//    {
+//        return;
+//    }
     painter.drawRect(QRect(m_start, m_stop));
-
-
 }
 
 void myLabel::recvIsAddROISig(bool is_add_roi)
 {
     this->is_add_roi = is_add_roi;
+}
+
+void myLabel::recvSaveImageSig()
+{
+    emit sendRectSig(this->current_rect);
+}
+
+void myLabel::recvRectMapSig(QMap<QString, QRect> rect_map)
+{
+    this->rect_map = rect_map;
+    qDebug() << this->rect_map << endl;
 }
 
 QRect myLabel::getRect(const QPoint &beginPoint, const QPoint &endPoint)
