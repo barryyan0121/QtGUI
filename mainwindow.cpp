@@ -15,9 +15,10 @@ MainWindow::MainWindow(QWidget *parent)
     label->setScaledContents(true);
     ui->verticalLayout->addWidget(label);
     QObject::connect(label, &myLabel::sendRectSig, this, &MainWindow::recvRectSig);
-    QObject::connect(this, &MainWindow::sendSaveImageSig, label, &myLabel::recvSaveImageSig);
+    QObject::connect(this, &MainWindow::sendSaveRectSig, label, &myLabel::recvSaveRectSig);
     QObject::connect(this, &MainWindow::sendIsAddROISig, label, &myLabel::recvIsAddROISig);
     QObject::connect(this, &MainWindow::sendRectMapSig, label, &myLabel::recvRectMapSig);
+    QObject::connect(this, &MainWindow::sendResetROISig, label, &myLabel::recvResetROISig);
     QObject::connect(ui->roi1, &QPushButton::clicked, this, &MainWindow::AddROI1_clicked);
     QObject::connect(ui->roi2, &QPushButton::clicked, this, &MainWindow::AddROI2_clicked);
     QObject::connect(ui->roi3, &QPushButton::clicked, this, &MainWindow::AddROI3_clicked);
@@ -33,6 +34,8 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+// System SLOT Function
 
 void MainWindow::on_LoadImage_clicked()
 {
@@ -50,10 +53,7 @@ void MainWindow::on_LoadImage_clicked()
         {
             ui->lineEdit->setText(lstName.at(0));
             QImage img = QImage(lstName.at(0));
-            QPixmap tempPix=QPixmap::fromImage(img);
-            label->setPixmap(tempPix);
-            label->resize(label->pixmap()->size());
-            label->m_loadPixmap = tempPix;
+            loadImageHelper(img);
         }
     }
     fileDlg->close();
@@ -63,14 +63,39 @@ void MainWindow::on_LoadImage_clicked()
 
 void MainWindow::on_SaveImage_clicked()
 {
-    emit sendSaveImageSig();
+    emit sendSaveRectSig();
 }
 
-void MainWindow::recvRectSig(QRect rect)
+void MainWindow::on_ClearCurrentROI_clicked()
 {
-    rect_map[current_roi] = rect;
+    rect_map.remove(current_roi);
     emit sendRectMapSig(rect_map);
+    emit sendResetROISig();
 }
+
+void MainWindow::on_ClearAllROI_clicked()
+{
+    rect_map.clear();
+    emit sendRectMapSig(rect_map);
+    emit sendResetROISig();
+}
+
+void MainWindow::on_lineEdit_returnPressed()
+{
+    QString filename = ui->lineEdit->text();
+    QImage img = QImage(filename);
+    loadImageHelper(img);
+}
+
+void MainWindow::on_SaveFile_clicked()
+{
+    QImage img = label->pixmap()->toImage();
+    QString filename = ui->lineEdit->text();
+    filename = filename.split(".jpg").at(0) + "_annotated.jpg";
+    img.save(filename);
+}
+
+// Helper functions
 
 void MainWindow::ROIClickedHelper(QString string)
 {
@@ -86,6 +111,39 @@ void MainWindow::ROIClickedHelper(QString string)
     }
     current_roi = string;
     emit sendIsAddROISig(is_add_roi);
+    emit sendResetROISig();
+}
+
+void MainWindow::loadImageHelper(QImage img)
+{
+    if (img.isNull())
+    {
+        failToLoadImageHelper();
+        return;
+    }
+    QPixmap tempPix = QPixmap::fromImage(img);
+    label->setPixmap(tempPix);
+    label->resize(label->pixmap()->size());
+    label->m_loadPixmap = tempPix;
+
+}
+
+void MainWindow::failToLoadImageHelper()
+{
+    QMessageBox msgBox;
+    msgBox.setText("Failed to load image!");
+    msgBox.setIcon(QMessageBox::Information);
+    msgBox.setStandardButtons(QMessageBox::Ok);
+    msgBox.setBaseSize(QSize(1200, 500));
+    msgBox.exec();
+}
+
+// Customized SLOT functions
+
+void MainWindow::recvRectSig(QRect rect)
+{
+    rect_map[current_roi] = rect;
+    emit sendRectMapSig(rect_map);
 }
 
 void MainWindow::AddROI1_clicked()
@@ -129,17 +187,6 @@ void MainWindow::AddROI8_clicked()
 {
     ROIClickedHelper("ROI8");
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 

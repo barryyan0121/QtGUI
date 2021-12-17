@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1616</width>
-    <height>754</height>
+    <height>634</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -21,75 +21,10 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="2" column="9">
-     <widget class="QPushButton" name="ClearAllROI">
-      <property name="text">
-       <string>清除所有ROI</string>
-      </property>
-      <property name="checkable">
-       <bool>false</bool>
-      </property>
-      <property name="checked">
-       <bool>false</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="2">
-     <widget class="QPushButton" name="roi3">
-      <property name="text">
-       <string>ROI3</string>
-      </property>
-      <property name="checkable">
-       <bool>true</bool>
-      </property>
-      <property name="autoExclusive">
-       <bool>true</bool>
-      </property>
-      <attribute name="buttonGroup">
-       <string notr="true">buttonGroup</string>
-      </attribute>
-     </widget>
-    </item>
-    <item row="2" column="10">
-     <widget class="QPushButton" name="SaveImage">
-      <property name="text">
-       <string>保存参数</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="13">
-     <widget class="QLineEdit" name="lineEdit"/>
-    </item>
-    <item row="2" column="7">
-     <widget class="QPushButton" name="roi8">
-      <property name="text">
-       <string>ROI8</string>
-      </property>
-      <property name="checkable">
-       <bool>true</bool>
-      </property>
-      <property name="autoExclusive">
-       <bool>true</bool>
-      </property>
-      <attribute name="buttonGroup">
-       <string notr="true">buttonGroup</string>
-      </attribute>
-     </widget>
-    </item>
-    <item row="2" column="11">
-     <widget class="QPushButton" name="LoadImage">
-      <property name="cursor">
-       <cursorShape>OpenHandCursor</cursorShape>
-      </property>
-      <property name="text">
-       <string>打开图片</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="0" colspan="14">
+    <item row="0" column="1" colspan="16">
      <widget class="QScrollArea" name="scrollArea">
       <property name="sizePolicy">
-       <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+       <sizepolicy hsizetype="Minimum" vsizetype="MinimumExpanding">
         <horstretch>0</horstretch>
         <verstretch>0</verstretch>
        </sizepolicy>
@@ -109,10 +44,10 @@
          <x>0</x>
          <y>0</y>
          <width>1596</width>
-         <height>655</height>
+         <height>527</height>
         </rect>
        </property>
-       <layout class="QVBoxLayout" name="verticalLayout" stretch="">
+       <layout class="QVBoxLayout" name="verticalLayout">
         <property name="spacing">
          <number>2</number>
         </property>
@@ -132,127 +67,215 @@
       </widget>
      </widget>
     </item>
-    <item row="2" column="3">
-     <widget class="QPushButton" name="roi4">
-      <property name="text">
-       <string>ROI4</string>
+    <item row="1" column="1" rowspan="6" colspan="16">
+     <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,0,0,0,0,0,0,0,0,0,0,0,0,0">
+      <property name="spacing">
+       <number>20</number>
       </property>
-      <property name="checkable">
-       <bool>true</bool>
+      <property name="sizeConstraint">
+       <enum>QLayout::SetNoConstraint</enum>
       </property>
-      <property name="autoExclusive">
-       <bool>true</bool>
+      <property name="leftMargin">
+       <number>5</number>
       </property>
-      <attribute name="buttonGroup">
-       <string notr="true">buttonGroup</string>
-      </attribute>
-     </widget>
-    </item>
-    <item row="2" column="12">
-     <widget class="QLabel" name="label">
-      <property name="text">
-       <string>图片路径：</string>
+      <property name="topMargin">
+       <number>15</number>
       </property>
-     </widget>
-    </item>
-    <item row="2" column="1">
-     <widget class="QPushButton" name="roi2">
-      <property name="text">
-       <string>ROI2</string>
+      <property name="rightMargin">
+       <number>5</number>
       </property>
-      <property name="checkable">
-       <bool>true</bool>
+      <property name="bottomMargin">
+       <number>0</number>
       </property>
-      <property name="autoExclusive">
-       <bool>true</bool>
-      </property>
-      <attribute name="buttonGroup">
-       <string notr="true">buttonGroup</string>
-      </attribute>
-     </widget>
-    </item>
-    <item row="2" column="6">
-     <widget class="QPushButton" name="roi7">
-      <property name="text">
-       <string>ROI7</string>
-      </property>
-      <property name="checkable">
-       <bool>true</bool>
-      </property>
-      <property name="autoExclusive">
-       <bool>true</bool>
-      </property>
-      <attribute name="buttonGroup">
-       <string notr="true">buttonGroup</string>
-      </attribute>
-     </widget>
-    </item>
-    <item row="2" column="5">
-     <widget class="QPushButton" name="roi6">
-      <property name="text">
-       <string>ROI6</string>
-      </property>
-      <property name="checkable">
-       <bool>true</bool>
-      </property>
-      <property name="autoExclusive">
-       <bool>true</bool>
-      </property>
-      <attribute name="buttonGroup">
-       <string notr="true">buttonGroup</string>
-      </attribute>
-     </widget>
-    </item>
-    <item row="2" column="8">
-     <widget class="QPushButton" name="ClearCurrentROI">
-      <property name="text">
-       <string>清除当前ROI</string>
-      </property>
-      <property name="checkable">
-       <bool>false</bool>
-      </property>
-      <property name="checked">
-       <bool>false</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="4" alignment="Qt::AlignHCenter">
-     <widget class="QPushButton" name="roi5">
-      <property name="text">
-       <string>ROI5</string>
-      </property>
-      <property name="checkable">
-       <bool>true</bool>
-      </property>
-      <property name="autoExclusive">
-       <bool>true</bool>
-      </property>
-      <attribute name="buttonGroup">
-       <string notr="true">buttonGroup</string>
-      </attribute>
-     </widget>
-    </item>
-    <item row="2" column="0">
-     <widget class="QPushButton" name="roi1">
-      <property name="text">
-       <string>ROI1</string>
-      </property>
-      <property name="checkable">
-       <bool>true</bool>
-      </property>
-      <property name="autoExclusive">
-       <bool>true</bool>
-      </property>
-      <attribute name="buttonGroup">
-       <string notr="true">buttonGroup</string>
-      </attribute>
-     </widget>
-    </item>
-    <item row="1" column="13">
-     <layout class="QHBoxLayout" name="horizontalLayout"/>
-    </item>
-    <item row="1" column="2">
-     <layout class="QVBoxLayout" name="verticallayout"/>
+      <item>
+       <widget class="QPushButton" name="LoadImage">
+        <property name="cursor">
+         <cursorShape>OpenHandCursor</cursorShape>
+        </property>
+        <property name="text">
+         <string>打开图片</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>图片路径：</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="lineEdit"/>
+      </item>
+      <item>
+       <widget class="QPushButton" name="SaveFile">
+        <property name="text">
+         <string>保存图片</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="roi1">
+        <property name="text">
+         <string>ROI1</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="autoExclusive">
+         <bool>true</bool>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroup</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="roi2">
+        <property name="text">
+         <string>ROI2</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="autoExclusive">
+         <bool>true</bool>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroup</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="roi3">
+        <property name="text">
+         <string>ROI3</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="autoExclusive">
+         <bool>true</bool>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroup</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="roi4">
+        <property name="text">
+         <string>ROI4</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="autoExclusive">
+         <bool>true</bool>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroup</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="roi5">
+        <property name="text">
+         <string>ROI5</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="autoExclusive">
+         <bool>true</bool>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroup</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="roi6">
+        <property name="text">
+         <string>ROI6</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="autoExclusive">
+         <bool>true</bool>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroup</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="roi7">
+        <property name="text">
+         <string>ROI7</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="autoExclusive">
+         <bool>true</bool>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroup</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="roi8">
+        <property name="text">
+         <string>ROI8</string>
+        </property>
+        <property name="checkable">
+         <bool>true</bool>
+        </property>
+        <property name="autoExclusive">
+         <bool>true</bool>
+        </property>
+        <attribute name="buttonGroup">
+         <string notr="true">buttonGroup</string>
+        </attribute>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="SaveImage">
+        <property name="text">
+         <string>保存参数</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="ClearCurrentROI">
+        <property name="text">
+         <string>清除当前ROI</string>
+        </property>
+        <property name="checkable">
+         <bool>false</bool>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="ClearAllROI">
+        <property name="text">
+         <string>清除所有ROI</string>
+        </property>
+        <property name="checkable">
+         <bool>false</bool>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
    </layout>
   </widget>

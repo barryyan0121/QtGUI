@@ -14,7 +14,7 @@ class myLayout:public QWidget
 public:
     myLayout(QWidget *parent);
     ~myLayout();
-    void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
+//    void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
 };
 
 class myLabel:public QLabel
@@ -32,8 +32,9 @@ public:
 
 public slots:
     void recvIsAddROISig(bool is_add_roi);
-    void recvSaveImageSig();
+    void recvSaveRectSig();
     void recvRectMapSig(QMap<QString, QRect> rect_map);
+    void recvResetROISig();
 
 private:
     bool m_isDown;

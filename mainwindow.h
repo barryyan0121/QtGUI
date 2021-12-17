@@ -18,10 +18,15 @@ public:
     ~MainWindow();
 
 private slots:
+
     void on_LoadImage_clicked();
     void on_SaveImage_clicked();
-    void recvRectSig(QRect rect);
+    void on_ClearCurrentROI_clicked();
+    void on_ClearAllROI_clicked();
+    void on_lineEdit_returnPressed();
+    void on_SaveFile_clicked();
 
+    void recvRectSig(QRect rect);
     void AddROI1_clicked();
     void AddROI2_clicked();
     void AddROI3_clicked();
@@ -31,6 +36,8 @@ private slots:
     void AddROI7_clicked();
     void AddROI8_clicked();
 
+
+
 private:
     Ui::MainWindow *ui;
     myLabel *label;
@@ -39,11 +46,13 @@ private:
     QString current_roi;
 
     void ROIClickedHelper(QString string);
-
+    void loadImageHelper(QImage img);
+    void failToLoadImageHelper();
 
 Q_SIGNALS:
     void sendIsAddROISig(bool is_add_roi);
     void sendRectMapSig(QMap<QString, QRect> rect_map);
-    void sendSaveImageSig();
+    void sendSaveRectSig();
+    void sendResetROISig();
 };
 #endif // MAINWINDOW_H
