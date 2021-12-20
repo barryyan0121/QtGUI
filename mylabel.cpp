@@ -20,6 +20,7 @@ myLabel::myLabel(QWidget *parent):QLabel(parent),
     m_start(QPoint(-1, -1)), m_stop(QPoint(-1, -1))
 {
     this->is_add_roi = false;
+    setMouseTracking(true);
 }
 
 myLabel::~myLabel()
@@ -43,6 +44,7 @@ void myLabel::mouseMoveEvent(QMouseEvent *e)
         m_stop = e->pos();
     }
     update();
+    emit sendMouseMoveSig(e);
 }
 
 void myLabel::mouseReleaseEvent(QMouseEvent *e)
@@ -82,7 +84,7 @@ void myLabel::recvSaveRectSig()
 void myLabel::recvRectMapSig(QMap<QString, QRect> rect_map)
 {
     this->rect_map = rect_map;
-    qDebug() << this->rect_map << endl;
+    // qDebug() << this->rect_map << endl;
     update();
 }
 
@@ -104,7 +106,7 @@ QRect myLabel::getRect(const QPoint &beginPoint, const QPoint &endPoint)
     y = beginPoint.y() < endPoint.y() ? beginPoint.y() : endPoint.y();
 
     QRect selectedRect = QRect(x, y, width, height);
-    // 避免宽或高为零时拷贝截图有误
+
     if (selectedRect.width() == 0)
     {
         selectedRect.setWidth(1);

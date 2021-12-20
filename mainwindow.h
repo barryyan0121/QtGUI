@@ -17,16 +17,13 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
+
 private slots:
 
-    void on_LoadImage_clicked();
-    void on_SaveImage_clicked();
-    void on_ClearCurrentROI_clicked();
-    void on_ClearAllROI_clicked();
-    void on_lineEdit_returnPressed();
-    void on_SaveFile_clicked();
-
+    // customized slot function
     void recvRectSig(QRect rect);
+    void recvMouseMoveSig(QMouseEvent *e);
     void AddROI1_clicked();
     void AddROI2_clicked();
     void AddROI3_clicked();
@@ -36,7 +33,30 @@ private slots:
     void AddROI7_clicked();
     void AddROI8_clicked();
 
+    // system slot function
+    void on_LoadImage_clicked();
+    void on_SaveImage_clicked();
+    void on_ClearCurrentROI_clicked();
+    void on_ClearAllROI_clicked();
+    void on_lineEdit_returnPressed();
+    void on_SaveFile_clicked();
+    void on_actionOpen_File_triggered();
+    void on_actionSave_As_triggered();
+    void on_actionSave_Picture_triggered();
+    void on_actionROI1_triggered();
+    void on_actionROI2_triggered();
+    void on_actionROI3_triggered();
+    void on_actionROI4_triggered();
+    void on_actionROI5_triggered();
+    void on_actionROI6_triggered();
+    void on_actionROI7_triggered();
+    void on_actionROI8_triggered();
 
+    void on_actionQuit_triggered();
+
+    void on_actionClear_Current_triggered();
+
+    void on_actionClear_All_triggered();
 
 private:
     Ui::MainWindow *ui;
@@ -48,6 +68,9 @@ private:
     void ROIClickedHelper(QString string);
     void loadImageHelper(QImage img);
     void failToLoadImageHelper();
+    bool checkSaveImageHelper();
+    void connectSlotHelper();
+    void groupROIHelper();
 
 Q_SIGNALS:
     void sendIsAddROISig(bool is_add_roi);

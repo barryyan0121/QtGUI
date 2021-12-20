@@ -17,7 +17,8 @@
 #include <QMouseEvent>
 #include <QObject>
 #include <QDebug>
-
+#include <QActionGroup>
+#include <QCloseEvent>
 
 #include "mylabel.h"
 

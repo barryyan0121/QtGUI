@@ -14,7 +14,141 @@ MainWindow::MainWindow(QWidget *parent)
     label->setStyleSheet("QLabel{background-color:rgb(200,200,200);}");
     label->setScaledContents(true);
     ui->verticalLayout->addWidget(label);
+    connectSlotHelper();
+    groupROIHelper();
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+// override event functions
+
+void MainWindow::closeEvent( QCloseEvent * event )
+{
+    switch(QMessageBox::information(this, tr("Exit Warning"), tr("Do you really want to exit?"), tr("Yes"), tr("No"), 0, 1))
+    {
+        case 0:
+            event->accept();
+            break;
+        default:
+            event->ignore();
+            break;
+    }
+}
+
+
+// Customized SLOT functions
+
+void MainWindow::recvRectSig(QRect rect)
+{
+    rect_map[current_roi] = rect;
+    emit sendRectMapSig(rect_map);
+}
+
+void MainWindow::recvMouseMoveSig(QMouseEvent *e)
+{
+
+}
+
+void MainWindow::AddROI1_clicked()
+{
+    ROIClickedHelper("ROI1");
+}
+
+void MainWindow::AddROI2_clicked()
+{
+    ROIClickedHelper("ROI2");
+}
+
+void MainWindow::AddROI3_clicked()
+{
+    ROIClickedHelper("ROI3");
+}
+
+void MainWindow::AddROI4_clicked()
+{
+    ROIClickedHelper("ROI4");
+}
+
+void MainWindow::AddROI5_clicked()
+{
+    ROIClickedHelper("ROI5");
+}
+
+void MainWindow::AddROI6_clicked()
+{
+    ROIClickedHelper("ROI6");
+}
+
+void MainWindow::AddROI7_clicked()
+{
+    ROIClickedHelper("ROI7");
+}
+
+void MainWindow::AddROI8_clicked()
+{
+    ROIClickedHelper("ROI8");
+}
+
+// Helper functions
+
+void MainWindow::ROIClickedHelper(QString string)
+{
+    if (is_add_roi && current_roi == string)
+    {
+        is_add_roi = false;
+        this->setCursor(QCursor(Qt::ArrowCursor));
+    }
+    else
+    {
+        is_add_roi = true;
+        this->setCursor(QCursor(Qt::CrossCursor));
+    }
+    current_roi = string;
+    emit sendIsAddROISig(is_add_roi);
+    emit sendResetROISig();
+}
+
+void MainWindow::loadImageHelper(QImage img)
+{
+    if (img.isNull())
+    {
+        failToLoadImageHelper();
+        return;
+    }
+    QPixmap tempPix = QPixmap::fromImage(img);
+    label->setPixmap(tempPix);
+    label->resize(label->pixmap()->size());
+    label->m_loadPixmap = tempPix;
+
+}
+
+void MainWindow::failToLoadImageHelper()
+{
+    QMessageBox msgBox;
+    msgBox.setText("Failed to load image!");
+    msgBox.setIcon(QMessageBox::Critical);
+    msgBox.setStandardButtons(QMessageBox::Ok);
+    msgBox.setBaseSize(QSize(1200, 500));
+    msgBox.exec();
+}
+
+bool MainWindow::checkSaveImageHelper()
+{
+    if (label->pixmap() == nullptr)
+    {
+        QMessageBox::warning(this,tr("Error"),tr("Failed to Save File"));
+        return false;
+    }
+    return true;
+}
+
+void MainWindow::connectSlotHelper()
+{
     QObject::connect(label, &myLabel::sendRectSig, this, &MainWindow::recvRectSig);
+    QObject::connect(label, &myLabel::sendMouseMoveSig, this, &MainWindow::recvMouseMoveSig);
     QObject::connect(this, &MainWindow::sendSaveRectSig, label, &myLabel::recvSaveRectSig);
     QObject::connect(this, &MainWindow::sendIsAddROISig, label, &myLabel::recvIsAddROISig);
     QObject::connect(this, &MainWindow::sendRectMapSig, label, &myLabel::recvRectMapSig);
@@ -27,12 +161,19 @@ MainWindow::MainWindow(QWidget *parent)
     QObject::connect(ui->roi6, &QPushButton::clicked, this, &MainWindow::AddROI6_clicked);
     QObject::connect(ui->roi7, &QPushButton::clicked, this, &MainWindow::AddROI7_clicked);
     QObject::connect(ui->roi8, &QPushButton::clicked, this, &MainWindow::AddROI8_clicked);
-
 }
 
-MainWindow::~MainWindow()
+void MainWindow::groupROIHelper()
 {
-    delete ui;
+    QActionGroup *roi_alignment = new QActionGroup(this);
+    roi_alignment->addAction(ui->actionROI1);
+    roi_alignment->addAction(ui->actionROI2);
+    roi_alignment->addAction(ui->actionROI3);
+    roi_alignment->addAction(ui->actionROI4);
+    roi_alignment->addAction(ui->actionROI5);
+    roi_alignment->addAction(ui->actionROI6);
+    roi_alignment->addAction(ui->actionROI7);
+    roi_alignment->addAction(ui->actionROI8);
 }
 
 // System SLOT Function
@@ -40,10 +181,10 @@ MainWindow::~MainWindow()
 void MainWindow::on_LoadImage_clicked()
 {
     QFileDialog *fileDlg = new QFileDialog(this);
-    fileDlg->setWindowTitle("选择图片");
+    fileDlg->setWindowTitle("Open File");
     QStringList qstrFilters;
-    qstrFilters<<"图片文件(*.bmp *.jpg *.pbm *.pgm *.png *.ppm *.xbm *.xpm)";
-    qstrFilters<<"所有文件 (*)";
+    qstrFilters<<"Picture File (*.bmp *.jpg *.pbm *.pgm *.png *.ppm *.xbm *.xpm)";
+    qstrFilters<<"All Files (*)";
     fileDlg->setNameFilters(qstrFilters);
     fileDlg->setFileMode(QFileDialog::ExistingFile);
     if(fileDlg->exec() == QDialog::Accepted)
@@ -89,105 +230,94 @@ void MainWindow::on_lineEdit_returnPressed()
 
 void MainWindow::on_SaveFile_clicked()
 {
-    QImage img = label->pixmap()->toImage();
-    QString filename = ui->lineEdit->text();
-    filename = filename.split(".jpg").at(0) + "_annotated.jpg";
-    img.save(filename);
+    if (checkSaveImageHelper())
+    {
+        QImage img = label->pixmap()->toImage();
+        QString filename = ui->lineEdit->text();
+        filename = filename.split(".jpg").at(0) + "_annotated.jpg";
+        img.save(filename);
+        QMessageBox::warning(this,tr("Information"), tr("Successfully Saved File to Disk"));
+    }
 }
 
-// Helper functions
-
-void MainWindow::ROIClickedHelper(QString string)
+void MainWindow::on_actionOpen_File_triggered()
 {
-    if (is_add_roi && current_roi == string)
-    {
-        is_add_roi = false;
-        this->setCursor(QCursor(Qt::ArrowCursor));
-    }
-    else
-    {
-        is_add_roi = true;
-        this->setCursor(QCursor(Qt::CrossCursor));
-    }
-    current_roi = string;
-    emit sendIsAddROISig(is_add_roi);
-    emit sendResetROISig();
+    on_LoadImage_clicked();
 }
 
-void MainWindow::loadImageHelper(QImage img)
+void MainWindow::on_actionSave_As_triggered()
 {
-    if (img.isNull())
+    QFileDialog fileDialog;
+    QString fileName = fileDialog.getSaveFileName(this, tr("Save File"), "C:/", tr("Picture File (*.bmp *.jpg *.pbm *.pgm *.png *.ppm *.xbm *.xpm)"));
+    if(fileName == "")
     {
-        failToLoadImageHelper();
         return;
     }
-    QPixmap tempPix = QPixmap::fromImage(img);
-    label->setPixmap(tempPix);
-    label->resize(label->pixmap()->size());
-    label->m_loadPixmap = tempPix;
-
+    if (checkSaveImageHelper())
+    {
+        QImage img = label->pixmap()->toImage();
+        img.save(fileName);
+        QMessageBox::warning(this,tr("Information"), tr("Successfully Saved File to Disk"));
+    }
 }
 
-void MainWindow::failToLoadImageHelper()
+void MainWindow::on_actionSave_Picture_triggered()
 {
-    QMessageBox msgBox;
-    msgBox.setText("Failed to load image!");
-    msgBox.setIcon(QMessageBox::Information);
-    msgBox.setStandardButtons(QMessageBox::Ok);
-    msgBox.setBaseSize(QSize(1200, 500));
-    msgBox.exec();
+    on_SaveFile_clicked();
 }
 
-// Customized SLOT functions
-
-void MainWindow::recvRectSig(QRect rect)
+void MainWindow::on_actionROI1_triggered()
 {
-    rect_map[current_roi] = rect;
-    emit sendRectMapSig(rect_map);
+    ui->roi1->click();
+    ui->actionROI1->setChecked(true);
 }
 
-void MainWindow::AddROI1_clicked()
+void MainWindow::on_actionROI2_triggered()
 {
-    ROIClickedHelper("ROI1");
+    ui->roi2->click();
 }
 
-void MainWindow::AddROI2_clicked()
+void MainWindow::on_actionROI3_triggered()
 {
-    ROIClickedHelper("ROI2");
+    ui->roi3->click();
 }
 
-void MainWindow::AddROI3_clicked()
+void MainWindow::on_actionROI4_triggered()
 {
-    ROIClickedHelper("ROI3");
+    ui->roi4->click();
 }
 
-void MainWindow::AddROI4_clicked()
+void MainWindow::on_actionROI5_triggered()
 {
-    ROIClickedHelper("ROI4");
+    ui->roi5->click();
 }
 
-
-void MainWindow::AddROI5_clicked()
+void MainWindow::on_actionROI6_triggered()
 {
-    ROIClickedHelper("ROI5");
+    ui->roi6->click();
 }
 
-
-void MainWindow::AddROI6_clicked()
+void MainWindow::on_actionROI7_triggered()
 {
-    ROIClickedHelper("ROI6");
+    ui->roi7->click();
 }
 
-void MainWindow::AddROI7_clicked()
+void MainWindow::on_actionROI8_triggered()
 {
-    ROIClickedHelper("ROI7");
+    ui->roi8->click();
 }
 
-void MainWindow::AddROI8_clicked()
+void MainWindow::on_actionQuit_triggered()
 {
-    ROIClickedHelper("ROI8");
+    this->close();
 }
 
+void MainWindow::on_actionClear_Current_triggered()
+{
+    ui->ClearCurrentROI->click();
+}
 
-
-
+void MainWindow::on_actionClear_All_triggered()
+{
+    ui->ClearAllROI->click();
+}

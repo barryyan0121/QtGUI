@@ -47,6 +47,7 @@ private:
 
 Q_SIGNALS:
     void sendRectSig(QRect rect);
+    void sendMouseMoveSig(QMouseEvent *e);
 
 
 };

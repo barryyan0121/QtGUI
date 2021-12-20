@@ -44,7 +44,7 @@
          <x>0</x>
          <y>0</y>
          <width>1596</width>
-         <height>527</height>
+         <height>514</height>
         </rect>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout">
@@ -95,6 +95,9 @@
         <property name="text">
          <string>打开图片</string>
         </property>
+        <property name="shortcut">
+         <string>O</string>
+        </property>
        </widget>
       </item>
       <item>
@@ -109,6 +112,9 @@
       </item>
       <item>
        <widget class="QPushButton" name="SaveFile">
+        <property name="cursor">
+         <cursorShape>OpenHandCursor</cursorShape>
+        </property>
         <property name="text">
          <string>保存图片</string>
         </property>
@@ -244,6 +250,9 @@
       </item>
       <item>
        <widget class="QPushButton" name="SaveImage">
+        <property name="cursor">
+         <cursorShape>OpenHandCursor</cursorShape>
+        </property>
         <property name="text">
          <string>保存参数</string>
         </property>
@@ -251,8 +260,14 @@
       </item>
       <item>
        <widget class="QPushButton" name="ClearCurrentROI">
+        <property name="cursor">
+         <cursorShape>OpenHandCursor</cursorShape>
+        </property>
         <property name="text">
          <string>清除当前ROI</string>
+        </property>
+        <property name="shortcut">
+         <string>C</string>
         </property>
         <property name="checkable">
          <bool>false</bool>
@@ -264,6 +279,9 @@
       </item>
       <item>
        <widget class="QPushButton" name="ClearAllROI">
+        <property name="cursor">
+         <cursorShape>OpenHandCursor</cursorShape>
+        </property>
         <property name="text">
          <string>清除所有ROI</string>
         </property>
@@ -285,11 +303,181 @@
      <x>0</x>
      <y>0</y>
      <width>1616</width>
-     <height>22</height>
+     <height>26</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="geometry">
+     <rect>
+      <x>339</x>
+      <y>110</y>
+      <width>135</width>
+      <height>153</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>文件</string>
+    </property>
+    <property name="toolTipsVisible">
+     <bool>false</bool>
+    </property>
+    <addaction name="actionOpen_File"/>
+    <addaction name="actionSave_Picture"/>
+    <addaction name="actionSave_As"/>
+    <addaction name="separator"/>
+    <addaction name="actionQuit"/>
+   </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="geometry">
+     <rect>
+      <x>385</x>
+      <y>110</y>
+      <width>150</width>
+      <height>130</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>编辑</string>
+    </property>
+    <widget class="QMenu" name="menuROI">
+     <property name="geometry">
+      <rect>
+       <x>515</x>
+       <y>113</y>
+       <width>120</width>
+       <height>226</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>ROI</string>
+     </property>
+     <addaction name="actionROI1"/>
+     <addaction name="actionROI2"/>
+     <addaction name="actionROI3"/>
+     <addaction name="actionROI4"/>
+     <addaction name="actionROI5"/>
+     <addaction name="actionROI6"/>
+     <addaction name="actionROI7"/>
+     <addaction name="actionROI8"/>
+    </widget>
+    <addaction name="menuROI"/>
+    <addaction name="separator"/>
+    <addaction name="actionClear_Current"/>
+    <addaction name="actionClear_All"/>
+   </widget>
+   <widget class="QMenu" name="menuLogin">
+    <property name="title">
+     <string>登录</string>
+    </property>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuEdit"/>
+   <addaction name="menuLogin"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionOpen_File">
+   <property name="text">
+    <string>打开</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="actionSave_Picture">
+   <property name="text">
+    <string>保存</string>
+   </property>
+  </action>
+  <action name="actionSave_As">
+   <property name="text">
+    <string>另存为</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionQuit">
+   <property name="text">
+    <string>退出</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="actionROI1">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>ROI1</string>
+   </property>
+  </action>
+  <action name="actionROI2">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>ROI2</string>
+   </property>
+  </action>
+  <action name="actionROI3">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>ROI3</string>
+   </property>
+  </action>
+  <action name="actionROI4">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>ROI4</string>
+   </property>
+  </action>
+  <action name="actionROI5">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>ROI5</string>
+   </property>
+  </action>
+  <action name="actionROI6">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>ROI6</string>
+   </property>
+  </action>
+  <action name="actionROI7">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>ROI7</string>
+   </property>
+  </action>
+  <action name="actionROI8">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>ROI8</string>
+   </property>
+  </action>
+  <action name="actionClear_Current">
+   <property name="text">
+    <string>清除当前ROI</string>
+   </property>
+  </action>
+  <action name="actionClear_All">
+   <property name="text">
+    <string>清除所有ROI</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>
