@@ -33,7 +33,7 @@ INCLUDEPATH += E:\\lib\\opencvBU452\\cpu\\install\\include
 CONFIG += debug_and_release
 
 CONFIG(debug,debug | release){
-   #to doz
+   #to do
     LIBS += E:\\lib\\opencvBU452\\cpu\\install\\x64\\vc15\\lib\\opencv_world452d.lib
             E:\\lib\\opencvBU452\\cpu\\install\\x64\vc15\\lib\\opencv_img_hash452d.lib
 }
