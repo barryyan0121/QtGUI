@@ -58,6 +58,8 @@ private slots:
 
     void on_actionClear_All_triggered();
 
+    void on_actionQuit_Login_triggered();
+
 private:
     Ui::MainWindow *ui;
     myLabel *label;

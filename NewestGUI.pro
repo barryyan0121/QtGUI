@@ -16,12 +16,14 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    loginform.cpp \
     main.cpp \
     mainwindow.cpp \
     mylabel.cpp
 
 HEADERS += \
     QtHeaders.h \
+    loginform.h \
     mainwindow.h \
     mylabel.h
 
@@ -33,12 +35,12 @@ INCLUDEPATH += E:\\lib\\opencvBU452\\cpu\\install\\include
 CONFIG += debug_and_release
 
 CONFIG(debug,debug | release){
-   #to do
+   # to do
     LIBS += E:\\lib\\opencvBU452\\cpu\\install\\x64\\vc15\\lib\\opencv_world452d.lib
             E:\\lib\\opencvBU452\\cpu\\install\\x64\vc15\\lib\\opencv_img_hash452d.lib
 }
 else{
-    #to do
+    # to do
     LIBS += E:\\lib\\opencvBU452\\cpu\\install\\x64\\vc15\\lib\\opencv_world452.lib
             E:\\lib\\opencvBU452\\cpu\\install\\x64\vc15\\lib\\opencv_img_hash452.lib
 }

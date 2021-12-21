@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "QtHeaders.h"
+#include "loginform.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -37,7 +38,6 @@ void MainWindow::closeEvent( QCloseEvent * event )
             break;
     }
 }
-
 
 // Customized SLOT functions
 
@@ -320,4 +320,14 @@ void MainWindow::on_actionClear_Current_triggered()
 void MainWindow::on_actionClear_All_triggered()
 {
     ui->ClearAllROI->click();
+}
+
+void MainWindow::on_actionQuit_Login_triggered()
+{
+    this->hide();
+    LoginForm login;
+    if (login.exec() == QDialog::Accepted)
+    {
+        this->show();
+    }
 }

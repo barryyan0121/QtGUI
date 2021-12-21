@@ -19,6 +19,8 @@
 #include <QDebug>
 #include <QActionGroup>
 #include <QCloseEvent>
+#include <QLineEdit>
+#include <QPushButton>
 
 #include "mylabel.h"
 
