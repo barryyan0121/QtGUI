@@ -13,10 +13,12 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
+
 public:
+
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-
+    friend class MyLabel;
     void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
 
 private slots:
@@ -73,6 +75,7 @@ private:
     bool checkSaveImageHelper();
     void connectSlotHelper();
     void groupROIHelper();
+    QImage savePainterHelper();
 
 Q_SIGNALS:
     void sendIsAddROISig(bool is_add_roi);

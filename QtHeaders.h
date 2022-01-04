@@ -21,7 +21,8 @@
 #include <QCloseEvent>
 #include <QLineEdit>
 #include <QPushButton>
-
+#include <QDebug>
+#include <opencv2/opencv.hpp>
 #include "mylabel.h"
 
 #endif // QTHEADERS_H

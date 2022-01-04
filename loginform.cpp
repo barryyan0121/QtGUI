@@ -5,7 +5,7 @@ LoginForm::LoginForm(QDialog *parent) : QDialog(parent)
     this->setWindowTitle(tr("Login UI"));
 
     userNameLabel = new QLabel(this);
-    userNameLabel->move(70,83);
+    userNameLabel->move(50,83);
     userNameLabel->setText("Username:");
 
     userNameLineEdit = new QLineEdit(this);
@@ -13,7 +13,7 @@ LoginForm::LoginForm(QDialog *parent) : QDialog(parent)
     userNameLineEdit->setPlaceholderText(tr("Enter Username"));
 
     pwdLabel = new QLabel(this);
-    pwdLabel->move(70,133);
+    pwdLabel->move(50,133);
     pwdLabel->setText("Password:");
 
     pwdLineEdit = new QLineEdit(this);
@@ -36,7 +36,7 @@ LoginForm::LoginForm(QDialog *parent) : QDialog(parent)
 void LoginForm::login()
 {
 
-    if(userNameLineEdit->text().trimmed() == tr("admin") && pwdLineEdit->text() == tr("123456"))
+    if(userNameLineEdit->text().trimmed() == tr("") && pwdLineEdit->text() == tr(""))
     {
        this->accept();
        QMessageBox::information(this, tr("Login"), "Login Success!");

@@ -44,6 +44,7 @@ void MainWindow::closeEvent( QCloseEvent * event )
 void MainWindow::recvRectSig(QRect rect)
 {
     rect_map[current_roi] = rect;
+    qDebug() << rect_map << endl;
     emit sendRectMapSig(rect_map);
 }
 
@@ -122,7 +123,6 @@ void MainWindow::loadImageHelper(QImage img)
     label->setPixmap(tempPix);
     label->resize(label->pixmap()->size());
     label->m_loadPixmap = tempPix;
-
 }
 
 void MainWindow::failToLoadImageHelper()
@@ -174,6 +174,24 @@ void MainWindow::groupROIHelper()
     roi_alignment->addAction(ui->actionROI6);
     roi_alignment->addAction(ui->actionROI7);
     roi_alignment->addAction(ui->actionROI8);
+}
+
+QImage MainWindow::savePainterHelper()
+{
+    QPainter painter;
+    QImage img = label->m_loadPixmap.toImage();
+    painter.begin(&img);
+    painter.setPen(QPen(Qt::red, 2));
+    for (QRect rect: rect_map.values())
+    {
+        QRect newRect = QRect(rect.x() * img.width() / label->width(),
+                              rect.y() * img.height() / label->height(),
+                              rect.width() * img.width() / label->width(),
+                              rect.height() * img.height() / label->height());
+        painter.drawRect(newRect);
+    }
+    painter.end();
+    return img;
 }
 
 // System SLOT Function
@@ -232,7 +250,7 @@ void MainWindow::on_SaveFile_clicked()
 {
     if (checkSaveImageHelper())
     {
-        QImage img = label->pixmap()->toImage();
+        QImage img = savePainterHelper();
         QString filename = ui->lineEdit->text();
         filename = filename.split(".jpg").at(0) + "_annotated.jpg";
         img.save(filename);
@@ -255,7 +273,7 @@ void MainWindow::on_actionSave_As_triggered()
     }
     if (checkSaveImageHelper())
     {
-        QImage img = label->pixmap()->toImage();
+        QImage img = savePainterHelper();
         img.save(fileName);
         QMessageBox::warning(this,tr("Information"), tr("Successfully Saved File to Disk"));
     }

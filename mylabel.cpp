@@ -10,12 +10,6 @@ myLayout::~myLayout()
 
 }
 
-//void myLayout::paintEvent(QPaintEvent *event)
-//{
-
-//}
-
-
 myLabel::myLabel(QWidget *parent):QLabel(parent),
     m_start(QPoint(-1, -1)), m_stop(QPoint(-1, -1))
 {
@@ -30,7 +24,8 @@ myLabel::~myLabel()
 
 void myLabel::mousePressEvent(QMouseEvent *e)
 {
-    if(e->button() && Qt::LeftButton && is_add_roi){
+    if(e->button() && Qt::LeftButton && is_add_roi)
+    {
         m_isDown = true;
         m_start = e->pos();
         m_stop = e->pos();
@@ -40,7 +35,8 @@ void myLabel::mousePressEvent(QMouseEvent *e)
 
 void myLabel::mouseMoveEvent(QMouseEvent *e)
 {
-    if(m_isDown && is_add_roi){
+    if(m_isDown && is_add_roi)
+    {
         m_stop = e->pos();
     }
     update();
@@ -68,6 +64,14 @@ void myLabel::paintEvent(QPaintEvent * event)
     }
 }
 
+cv::Mat myLabel::QImage2Mat(QImage const& src)
+{
+     cv::Mat tmp(src.height(),src.width(),CV_8UC3,(uchar*)src.bits(),src.bytesPerLine());
+     cv::Mat result; // deep copy just in case (my lack of knowledge with open cv)
+     cv::cvtColor(tmp, result, cv::COLOR_BGR2RGB);
+     return result;
+}
+
 void myLabel::recvIsAddROISig(bool is_add_roi)
 {
     this->is_add_roi = is_add_roi;
@@ -84,8 +88,8 @@ void myLabel::recvSaveRectSig()
 void myLabel::recvRectMapSig(QMap<QString, QRect> rect_map)
 {
     this->rect_map = rect_map;
-    // qDebug() << this->rect_map << endl;
     update();
+    QMessageBox::warning(this,tr("Information"), tr("Successfully Saved ROI"));
 }
 
 void myLabel::recvResetROISig()
@@ -94,8 +98,6 @@ void myLabel::recvResetROISig()
     m_stop = QPoint(-1, -1);
     update();
 }
-
-
 
 QRect myLabel::getRect(const QPoint &beginPoint, const QPoint &endPoint)
 {
